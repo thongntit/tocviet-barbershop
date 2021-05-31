@@ -1,0 +1,15 @@
+.login-screen {
+  &__container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &__logo {
+    width: 50vw;
+    height: 50vw;
+    margin-bottom: 16px;
+  }
+}
