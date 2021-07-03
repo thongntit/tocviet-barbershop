@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import React from "react";
 import { useHistory } from "react-router-dom";
-
+import AppHeader from "../components/AppBar";
 interface Props {}
 
 const Home = (props: Props) => {
@@ -20,14 +20,13 @@ const Home = (props: Props) => {
   }
 
   return (
-    <div>
-      <h1>My App</h1>
+    <>
+      <AppHeader />
       <p>
         Welcome {firebase.auth().currentUser?.displayName}! You are now
         signed-in!
       </p>
-      <div onClick={logOut}>Sign-out</div>
-    </div>
+    </>
   );
 };
 
