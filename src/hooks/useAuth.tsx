@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext, createContext } from "react";
+import { AuthContext } from "contexts";
 import firebase from "firebase/app";
 import "firebase/auth";
+import React, { useContext, useEffect, useState } from "react";
 import { firebaseConfig } from "utils/appConfig";
-import { AuthContext } from "contexts";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -34,7 +34,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
       setUser(user);
-      console.log("da vao day");
       setIsAuthenticating(false);
     });
 

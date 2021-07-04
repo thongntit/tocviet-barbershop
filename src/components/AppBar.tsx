@@ -10,9 +10,9 @@ import {
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { AccountCircle, NotificationsNoneOutlined } from "@material-ui/icons";
 import { AuthContext } from "contexts";
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
 import "firebase/auth";
+import React, { useContext } from "react";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -32,7 +32,6 @@ const AppHeader: React.FC = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const history = useHistory();
 
   const { user, logout } = useContext(AuthContext);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

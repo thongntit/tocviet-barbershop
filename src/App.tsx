@@ -1,5 +1,5 @@
 import { createMuiTheme } from "@material-ui/core";
-import { Home } from "@material-ui/icons";
+import Home from "containers/Home";
 import { ThemeProvider } from "@material-ui/styles";
 import PrivateRoute from "components/PrivateRoute";
 import Customer from "containers/Customer";

@@ -1,0 +1,16 @@
+.customer-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-top: 70px;
+  padding: 50px;
+  &__title {
+    text-transform: uppercase;
+  }
+  &__phone {
+    padding: 16px 0px !important;
+  }
+  &__submit {
+    height: 50px;
+  }
+}
