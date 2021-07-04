@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Home from "./containers/Home";
+import Layout from "./containers/Layout";
 import LoginScreen from "./containers/LoginScreen";
 import { firebaseConfig } from "./utils/appConfig";
 
@@ -55,7 +56,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={LoginScreen} />
-          <Route exact path="/home" component={Home} />
+          <Route component={Layout} />
         </Switch>
       </Router>
     </ThemeProvider>
