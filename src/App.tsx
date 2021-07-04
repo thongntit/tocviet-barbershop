@@ -5,12 +5,18 @@ import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+} from "react-router-dom";
 import "./App.css";
 import Layout from "./containers/Layout";
 import LoginScreen from "./containers/LoginScreen";
 import { firebaseConfig } from "./utils/appConfig";
-
+import { FirebaseContext } from "contexts";
+import PrivateRoute from "components/PrivateRoute";
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -55,7 +61,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={LoginScreen} />
-          <Route component={Layout} />
+          <PrivateRoute exact component={Layout} />
         </Switch>
       </Router>
     </ThemeProvider>

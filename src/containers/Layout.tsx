@@ -1,32 +1,23 @@
 import CircularProgress from "@material-ui/core/CircularProgress";
 import AppHeader from "components/AppBar";
 import AppBottomNavigator from "components/AppBottomNavigator";
-import firebase from "firebase/app";
-import "firebase/auth";
 import React, { Suspense } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "./Home";
 
 interface Props {}
+const Customer = React.lazy(() => import("containers/Customer"));
 
 const Layout = (props: Props) => {
-  const history = useHistory();
-
-  const { currentUser, signOut } = firebase.auth();
-
-  if (!currentUser) {
-    history.push("/");
-  }
-  const logOut = () => {
-    signOut().then(() => history.push("/"));
-  };
-
   return (
     <>
-      <AppHeader userInfo={currentUser} logOut={logOut} />
+      <AppHeader />
       <Suspense fallback={<CircularProgress />}>
         <Switch>
-          <Route exact path="/home" component={Home} />
+          <Route exact path="/customer" component={Customer} />
+          <Route exact path="/staff" component={Home} />
+          <Route exact path="/account" component={Home} />
+          <Redirect to="customer" />
         </Switch>
       </Suspense>
       <AppBottomNavigator />

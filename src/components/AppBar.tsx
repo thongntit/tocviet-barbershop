@@ -1,24 +1,19 @@
 import {
   AppBar,
+  Avatar,
   IconButton,
   Menu,
   MenuItem,
-  Avatar,
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import { AccountCircle, Menu as MenuIcon } from "@material-ui/icons";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import firebase from "firebase/app";
-import "firebase/auth";
-import React from "react";
+import { AccountCircle, NotificationsNoneOutlined } from "@material-ui/icons";
+import { FirebaseContext } from "contexts";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-
-interface AppHeaderProps {
-  userInfo: firebase.User | null;
-  logOut: () => void;
-}
-
+import "firebase/auth";
+import firebase from "firebase";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -34,12 +29,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const AppHeader: React.FC<AppHeaderProps> = ({ userInfo }) => {
+const AppHeader: React.FC = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const history = useHistory();
 
+  const { currentUser } = useContext(FirebaseContext);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -47,65 +43,63 @@ const AppHeader: React.FC<AppHeaderProps> = ({ userInfo }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const logOut = () => {
     firebase
       .auth()
       .signOut()
       .then(() => history.push("/"));
   };
-
   return (
-    <div>
-      <AppBar position="static">
-        <Toolbar>
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        >
+          <NotificationsNoneOutlined />
+        </IconButton>
+        <Typography variant="h6" className={classes.title}>
+          Tóc Việt Barber
+        </Typography>
+        <div>
           <IconButton
-            edge="start"
-            className={classes.menuButton}
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
             color="inherit"
-            aria-label="menu"
           >
-            <MenuIcon />
+            {currentUser?.photoURL ? (
+              <Avatar alt="DisplayInfo" src={currentUser.photoURL} />
+            ) : (
+              <AccountCircle />
+            )}
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Tóc Việt Barber
-          </Typography>
-          <div>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              {userInfo?.photoURL ? (
-                <Avatar alt="DisplayInfo" src={userInfo.photoURL} />
-              ) : (
-                <AccountCircle />
-              )}
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>{userInfo?.displayName}</MenuItem>
-              <MenuItem onClick={logOut}>Đăng xuất</MenuItem>
-            </Menu>
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={open}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>
+              {currentUser?.displayName}
+            </MenuItem>
+            <MenuItem onClick={logOut}>Đăng xuất</MenuItem>
+          </Menu>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 };
 
