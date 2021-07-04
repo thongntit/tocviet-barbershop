@@ -1,3 +1,5 @@
+import { createMuiTheme } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -12,6 +14,16 @@ import { firebaseConfig } from "./utils/appConfig";
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#FF8F00",
+    },
+    secondary: {
+      main: "#2B2B2B",
+    },
+  },
+});
 
 const FirebaseApp = () => {
   const [link, setLink] = useState("");
@@ -39,12 +51,14 @@ const FirebaseApp = () => {
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={LoginScreen} />
-        <Route exact path="/home" component={Home} />
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={LoginScreen} />
+          <Route exact path="/home" component={Home} />
+        </Switch>
+      </Router>
+    </ThemeProvider>
   );
 }
 

@@ -8,20 +8,18 @@ interface Props {}
 const Home = (props: Props) => {
   const history = useHistory();
 
-  const logOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => history.push("/"));
-  };
+  const { currentUser, signOut } = firebase.auth();
 
-  if (!firebase.auth().currentUser) {
+  if (!currentUser) {
     history.push("/");
   }
+  const logOut = () => {
+    signOut().then(() => history.push("/"));
+  };
 
   return (
     <>
-      <AppHeader />
+      <AppHeader userInfo={currentUser} logOut={logOut} />
       <p>
         Welcome {firebase.auth().currentUser?.displayName}! You are now
         signed-in!
