@@ -9,11 +9,10 @@ import {
 } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { AccountCircle, NotificationsNoneOutlined } from "@material-ui/icons";
-import { FirebaseContext } from "contexts";
+import { AuthContext } from "contexts";
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import "firebase/auth";
-import firebase from "firebase";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -35,7 +34,7 @@ const AppHeader: React.FC = () => {
   const open = Boolean(anchorEl);
   const history = useHistory();
 
-  const { currentUser } = useContext(FirebaseContext);
+  const { user, logout } = useContext(AuthContext);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,12 +42,7 @@ const AppHeader: React.FC = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const logOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => history.push("/"));
-  };
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -71,8 +65,8 @@ const AppHeader: React.FC = () => {
             onClick={handleMenu}
             color="inherit"
           >
-            {currentUser?.photoURL ? (
-              <Avatar alt="DisplayInfo" src={currentUser.photoURL} />
+            {user?.photoURL ? (
+              <Avatar alt="DisplayInfo" src={user.photoURL} />
             ) : (
               <AccountCircle />
             )}
@@ -92,10 +86,8 @@ const AppHeader: React.FC = () => {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>
-              {currentUser?.displayName}
-            </MenuItem>
-            <MenuItem onClick={logOut}>Đăng xuất</MenuItem>
+            <MenuItem onClick={handleClose}>{user?.displayName}</MenuItem>
+            <MenuItem onClick={logout}>Đăng xuất</MenuItem>
           </Menu>
         </div>
       </Toolbar>

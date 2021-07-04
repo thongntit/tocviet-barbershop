@@ -1,25 +1,18 @@
 import { createMuiTheme } from "@material-ui/core";
+import { Home } from "@material-ui/icons";
 import { ThemeProvider } from "@material-ui/styles";
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-import "firebase/storage";
-import React, { useEffect, useState } from "react";
+import PrivateRoute from "components/PrivateRoute";
+import Customer from "containers/Customer";
+import React from "react";
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   Switch,
-  useHistory,
 } from "react-router-dom";
 import "./App.css";
-import Layout from "./containers/Layout";
 import LoginScreen from "./containers/LoginScreen";
-import { firebaseConfig } from "./utils/appConfig";
-import { FirebaseContext } from "contexts";
-import PrivateRoute from "components/PrivateRoute";
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -31,37 +24,42 @@ const theme = createMuiTheme({
   },
 });
 
-const FirebaseApp = () => {
-  const [link, setLink] = useState("");
-  const getDatabase = async () => {
-    const db = firebase.firestore();
-    const result = await db.collection("customers").get();
-    console.log(result.forEach((doc) => console.log(doc.id, doc.data())));
-    const gsReference = firebase
-      .storage()
-      .refFromURL(
-        "gs://barber-tocviet.appspot.com/Screen Shot 2021-04-25 at 00.27.05.png"
-      );
-    const downloadLink = await gsReference.getDownloadURL();
-    setLink(downloadLink);
-  };
-  useEffect(() => {
-    getDatabase();
-  }, []);
-  return (
-    <div>
-      <img src={link} alt={"hehe"} />
-    </div>
-  );
-};
+// const FirebaseApp = () => {
+//   const [link, setLink] = useState("");
+//   const getDatabase = async () => {
+//     const db = firebase.firestore();
+//     const result = await db.collection("customers").get();
+//     console.log(result.forEach((doc) => console.log(doc.id, doc.data())));
+//     const gsReference = firebase
+//       .storage()
+//       .refFromURL(
+//         "gs://barber-tocviet.appspot.com/Screen Shot 2021-04-25 at 00.27.05.png"
+//       );
+//     const downloadLink = await gsReference.getDownloadURL();
+//     setLink(downloadLink);
+//   };
+//   useEffect(() => {
+//     getDatabase();
+//   }, []);
+//   return (
+//     <div>
+//       <img src={link} alt={"hehe"} />
+//     </div>
+//   );
+// };
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
-          <Route exact path="/" component={LoginScreen} />
-          <PrivateRoute exact component={Layout} />
+          <Route exact path="/login" component={LoginScreen} />
+          <PrivateRoute>
+            <Route exact path="/customer" component={Customer} />
+            <Route exact path="/staff" component={Home} />
+            <Route exact path="/account" component={Home} />
+            <Redirect to="/customer" />
+          </PrivateRoute>
         </Switch>
       </Router>
     </ThemeProvider>

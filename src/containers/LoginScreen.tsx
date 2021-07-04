@@ -24,7 +24,7 @@ const LoginScreen = (props: Props) => {
 
   useEffect(() => {
     if (isSignedIn) {
-      history.push("/customer");
+      history.push("/");
       setIsSignedIn(false);
     }
   }, [history, isSignedIn]);

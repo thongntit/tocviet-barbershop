@@ -1,24 +1,27 @@
-import { FirebaseContext } from "contexts";
-import firebase from "firebase/app";
-import "firebase/auth";
 import React from "react";
-import { Route, RouteProps, useHistory } from "react-router-dom";
-const PrivateRoute = (props: RouteProps) => {
-  const { currentUser } = firebase.auth();
-  const history = useHistory();
+import { Route, Redirect, RouteProps } from "react-router-dom";
 
-  if (!currentUser) {
-    history.push("/");
-  }
+import { useAuth } from "hooks/useAuth";
+import AppHeader from "./AppBar";
+import AppBottomNavigator from "./AppBottomNavigator";
 
+const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
+  const { user } = useAuth();
   return (
-    <FirebaseContext.Provider
-      value={{
-        currentUser: currentUser || undefined,
-      }}
-    >
-      <Route {...props} />
-    </FirebaseContext.Provider>
+    <Route
+      {...rest}
+      render={() =>
+        user ? (
+          <>
+            <AppHeader />
+            {children}
+            <AppBottomNavigator />
+          </>
+        ) : (
+          <Redirect to="/login" />
+        )
+      }
+    ></Route>
   );
 };
 
