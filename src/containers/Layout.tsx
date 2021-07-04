@@ -1,9 +1,10 @@
+import CircularProgress from "@material-ui/core/CircularProgress";
+import AppHeader from "components/AppBar";
+import AppBottomNavigator from "components/AppBottomNavigator";
 import firebase from "firebase/app";
 import "firebase/auth";
 import React, { Suspense } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
-import AppHeader from "../components/AppBar";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Home from "./Home";
 
 interface Props {}
@@ -28,6 +29,7 @@ const Layout = (props: Props) => {
           <Route exact path="/home" component={Home} />
         </Switch>
       </Suspense>
+      <AppBottomNavigator />
     </>
   );
 };

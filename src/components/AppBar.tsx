@@ -1,13 +1,14 @@
-import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Avatar from "@material-ui/core/Avatar";
+import {
+  AppBar,
+  IconButton,
+  Menu,
+  MenuItem,
+  Avatar,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+import { AccountCircle, Menu as MenuIcon } from "@material-ui/icons";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuIcon from "@material-ui/icons/Menu";
 import firebase from "firebase/app";
 import "firebase/auth";
 import React from "react";

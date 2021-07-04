@@ -7,7 +7,6 @@ import "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import Home from "./containers/Home";
 import Layout from "./containers/Layout";
 import LoginScreen from "./containers/LoginScreen";
 import { firebaseConfig } from "./utils/appConfig";
